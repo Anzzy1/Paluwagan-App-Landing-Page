@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paluwagan: savings circles, done right</title>
+  <meta name="description" content="Paluwagan keeps your savings circle honest: a verifiable Digital Bunot, proof-of-payment receipts, reminders and a Tiwala Score. Try the beta in your browser." />
+  <meta name="theme-color" content="#22C55E" />
+  <link rel="icon" href="assets/favicon.png" />
+  <meta property="og:title" content="Paluwagan: savings circles, done right" />
+  <meta property="og:description" content="A fair draw, receipts for every hulog, and reminders. Try the beta in your browser." />
+  <meta property="og:image" content="assets/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    // Set theme before paint to avoid a flash.
+    (function () { var t; try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = t; })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+  <!-- ============ Icon set (duotone line icons) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" class="d"/><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="8.5" cy="8.5" r="1.3" class="f"/><circle cx="15.5" cy="8.5" r="1.3" class="f"/><circle cx="12" cy="12" r="1.3" class="f"/><circle cx="8.5" cy="15.5" r="1.3" class="f"/><circle cx="15.5" cy="15.5" r="1.3" class="f"/></symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24"><path class="d" d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9.5 8h5M9.5 12h5M9.5 16h2.5"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path class="d" d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21h4"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path class="d" d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><path class="d" d="M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/><path d="M12 3.5l2.6 5.3 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.3-4.1 5.9-.8z"/></symbol>
+      <symbol id="i-swap" viewBox="0 0 24 24"><path d="M7.5 4L4 7.5 7.5 11M4 7.5h13M16.5 13l3.5 3.5-3.5 3.5M20 16.5H7"/></symbol>
+      <symbol id="i-split" viewBox="0 0 24 24"><path class="d" d="M12 3a9 9 0 0 0 0 18z"/><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/></symbol>
+      <symbol id="i-calendar" viewBox="0 0 24 24"><rect class="d" x="3.5" y="5" width="17" height="15.5" rx="4"/><rect x="3.5" y="5" width="17" height="15.5" rx="4"/><path d="M8 3v4M16 3v4M3.5 10h17"/><circle cx="12" cy="15" r="1.2" class="f"/></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path class="d" d="M11 4l1.9 5.1L18 11l-5.1 1.9L11 18l-1.9-5.1L4 11l5.1-1.9z"/><path d="M11 4l1.9 5.1L18 11l-5.1 1.9L11 18l-1.9-5.1L4 11l5.1-1.9z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+      <symbol id="i-target" viewBox="0 0 24 24"><circle class="d" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" class="f"/></symbol>
+      <symbol id="i-users" viewBox="0 0 24 24"><circle class="d" cx="9" cy="8" r="3.5"/><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.6.3 4.5 2.6 4.5 5.3"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect class="d" x="4" y="10" width="16" height="11" rx="3.5"/><rect x="4" y="10" width="16" height="11" rx="3.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2"/></symbol>
+      <symbol id="i-globe" viewBox="0 0 24 24"><circle class="d" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.5 3.7 5.5 3.7 9s-1.3 6.5-3.7 9c-2.4-2.5-3.7-5.5-3.7-9S9.6 5.5 12 3z"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-check-circle" viewBox="0 0 24 24"><circle class="d" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.8 2.8L16.2 9.5"/></symbol>
+      <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+      <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17L17 7M8.5 7H17v8.5"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path class="d" d="M4 7a3.5 3.5 0 0 1 3.5-3.5h9A3.5 3.5 0 0 1 20 7v6.5a3.5 3.5 0 0 1-3.5 3.5H11l-5 4v-4h0A2 2 0 0 1 4 15z"/><path d="M4 7a3.5 3.5 0 0 1 3.5-3.5h9A3.5 3.5 0 0 1 20 7v6.5a3.5 3.5 0 0 1-3.5 3.5H11l-5 4v-4h0A2 2 0 0 1 4 15z"/></symbol>
+      <symbol id="i-bug" viewBox="0 0 24 24"><rect class="d" x="7" y="7" width="10" height="13.5" rx="5"/><rect x="7" y="7" width="10" height="13.5" rx="5"/><path d="M9.2 7.2a2.8 2.8 0 0 1 5.6 0M12 11v9.5M3 13.5h4M17 13.5h4M4.5 8.5L7 10M19.5 8.5L17 10M4.5 19L7 17.5M19.5 19L17 17.5"/></symbol>
+      <symbol id="i-bulb" viewBox="0 0 24 24"><path class="d" d="M12 3a6 6 0 0 0-3.5 10.9c.4.3.5.7.5 1.1v1.5h6V15c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.4.3.5.7.5 1.1v1.5h6V15c0-.4.2-.8.5-1.1A6 6 0 0 0 12 3z"/><path d="M9.5 19.5h5M10.5 22h3"/></symbol>
+      <symbol id="i-palette" viewBox="0 0 24 24"><path class="d" d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.9 1.2-1.9-.5-1 .2-2.1 1.4-2.1H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.9 1.2-1.9-.5-1 .2-2.1 1.4-2.1H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><circle cx="7.5" cy="11.5" r="1.2" class="f"/><circle cx="10" cy="7.5" r="1.2" class="f"/><circle cx="15" cy="7.8" r="1.2" class="f"/></symbol>
+      <symbol id="i-dots" viewBox="0 0 24 24"><circle class="d" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><circle cx="8" cy="12" r="1.2" class="f"/><circle cx="12" cy="12" r="1.2" class="f"/><circle cx="16" cy="12" r="1.2" class="f"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path class="f" d="M8 5.5v13a1 1 0 0 0 1.5.9l10.4-6.5a1 1 0 0 0 0-1.8L9.5 4.6A1 1 0 0 0 8 5.5z"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path class="d" d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle class="d" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-wallet" viewBox="0 0 24 24"><rect class="d" x="3" y="6" width="18" height="14" rx="3.5"/><rect x="3" y="6" width="18" height="14" rx="3.5"/><path d="M16 4H7a3 3 0 0 0-3 3M15.5 13.5h2"/></symbol>
+      <symbol id="i-qr" viewBox="0 0 24 24"><rect class="d" x="3.5" y="3.5" width="6.5" height="6.5" rx="1.5"/><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1.5"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1.5"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1.5"/><path d="M14 14h3v3M20.5 14v.01M14 20.5h.01M17 20.5h3.5V17"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24"><rect class="d" x="3" y="4" width="18" height="12.5" rx="3"/><rect x="3" y="4" width="18" height="12.5" rx="3"/><path d="M9 20.5h6M12 16.5v4"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6L6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+      <symbol id="i-android" viewBox="0 0 24 24"><path class="f" d="M17.6 9.5l1.8-3.2a.4.4 0 0 0-.7-.4l-1.9 3.2a11.3 11.3 0 0 0-9.6 0L5.3 5.9a.4.4 0 0 0-.7.4l1.8 3.2A10.6 10.6 0 0 0 1 18h22a10.6 10.6 0 0 0-5.4-8.5zM7 15.2a1.2 1.2 0 1 1 0-2.5 1.2 1.2 0 0 1 0 2.5zm10 0a1.2 1.2 0 1 1 0-2.5 1.2 1.2 0 0 1 0 2.5z"/></symbol>
+      <symbol id="i-windows" viewBox="0 0 24 24"><path class="f" d="M3 5.6l7.4-1v7H3zM11.4 4.4L21 3v8.6h-9.6zM3 12.4h7.4v7L3 18.4zM11.4 12.4H21V21l-9.6-1.3z"/></symbol>
+      <symbol id="i-apple" viewBox="0 0 24 24"><path class="f" d="M16.4 12.6c0-2.5 2-3.7 2.1-3.8a4.6 4.6 0 0 0-3.6-2c-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.8a4.9 4.9 0 0 0-4.1 2.5c-1.8 3-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5a10 10 0 0 0 1.4-2.8 4.3 4.3 0 0 1-2.5-4.1zM14 5.2A4.3 4.3 0 0 0 15 2a4.4 4.4 0 0 0-2.9 1.5 4.1 4.1 0 0 0-1 3.1A3.6 3.6 0 0 0 14 5.2z"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="beta-bar">
+    <span class="beta-tag"><span class="pulse"></span>Open beta</span>
+    <span class="beta-text">Downloads aren't ready yet, but the full app works in your browser today.</span>
+    <a href="#feedback" class="beta-link" data-open-feedback data-category="bug">Report a problem <svg class="ic ic-sm"><use href="#i-arrow-r"/></svg></a>
+  </div>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand" aria-label="Paluwagan home">
+        <img src="assets/logo-mark.svg" alt="" width="34" height="34" />
+        <span>paluwagan</span>
+      </a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#tour">Tour</a>
+        <a href="#how">How it works</a>
+        <a href="#demo">Live demo</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="nav-cta">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="ic i-sun"><use href="#i-sun"/></svg>
+          <svg class="ic i-moon"><use href="#i-moon"/></svg>
+        </button>
+        <a href="#download" class="btn btn-ink btn-sm nav-dl"><svg class="ic ic-sm"><use href="#i-download"/></svg>Get the app</a>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+          <svg class="ic"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+      <a href="#features">Features</a>
+      <a href="#tour">Tour</a>
+      <a href="#how">How it works</a>
+      <a href="#demo">Live demo</a>
+      <a href="#download">Download</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+        <div class="grid-pattern"></div>
+      </div>
+
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <a href="#demo" class="announce intro" style="--d:0">
+            <span class="announce-tag">New</span>
+            <span>Try the full app, no sign-up needed</span>
+            <svg class="ic ic-sm"><use href="#i-arrow-r"/></svg>
+          </a>
+
+          <h1 class="hero-title">
+            <span class="line"><span class="intro" style="--d:1">Run your</span></span>
+            <span class="line line-pill"><span class="intro" style="--d:2"><span class="hl-pill">paluwagan</span></span></span>
+            <span class="line"><span class="intro" style="--d:3">without the listahan.</span></span>
+          </h1>
+
+          <p class="hero-lead intro" style="--d:4">
+            Draw turns with a
+            <span class="chip-inline"><svg class="ic"><use href="#i-dice"/></svg>fair bunot</span>,
+            keep a
+            <span class="chip-inline c-blue"><svg class="ic"><use href="#i-receipt"/></svg>receipt</span>
+            for every hulog, and get
+            <span class="chip-inline c-gold"><svg class="ic"><use href="#i-bell"/></svg>reminders</span>
+            before anyone falls behind.
+          </p>
+
+          <div class="hero-actions intro" style="--d:5">
+            <a class="btn btn-primary btn-lg web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">
+              Open the web app <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg>
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#tour">
+              <span class="play-dot"><svg class="ic ic-xs"><use href="#i-play"/></svg></span> Take the tour
+            </a>
+          </div>
+
+          <div class="hero-platforms intro" style="--d:6">
+            <span class="hp-label">Coming soon to</span>
+            <span class="hp-item" title="Android"><svg class="ic"><use href="#i-android"/></svg>Android</span>
+            <span class="hp-item" title="Windows"><svg class="ic"><use href="#i-windows"/></svg>Windows</span>
+            <span class="hp-item" title="iOS"><svg class="ic"><use href="#i-apple"/></svg>iOS</span>
+          </div>
+        </div>
+
+        <!-- Hero visual -->
+        <div class="hero-stage" id="heroStage" aria-hidden="true">
+          <svg class="route" viewBox="0 0 560 620" preserveAspectRatio="none">
+            <path id="routePath" d="M40 120 C 140 40, 260 80, 300 170 S 420 330, 520 300 S 470 520, 300 560" />
+            <circle r="6" class="route-dot"><animateMotion dur="7s" repeatCount="indefinite" rotate="auto"><mpath href="#routePath"/></animateMotion></circle>
+          </svg>
+
+          <div class="layer" data-depth="10">
+            <div class="phone phone-back intro-up" style="--d:4">
+              <div class="phone-island"></div>
+              <div class="phone-screen">
+                <img class="only-light" src="assets/screens/circles.webp" alt="" width="390" height="844" />
+                <img class="only-dark" src="assets/screens/circles-dark.webp" alt="" width="390" height="844" />
+              </div>
+            </div>
+          </div>
+
+          <div class="layer" data-depth="22">
+            <div class="phone phone-front intro-up" style="--d:2">
+              <div class="phone-island"></div>
+              <div class="phone-screen">
+                <img class="only-light" src="assets/screens/home.webp" alt="" width="390" height="844" />
+                <img class="only-dark" src="assets/screens/home-dark.webp" alt="" width="390" height="844" />
+              </div>
+            </div>
+          </div>
+
+          <div class="layer" data-depth="34">
+            <div class="float-card fc-1 intro-pop" style="--d:7">
+              <span class="fc-ic"><svg class="ic"><use href="#i-dice"/></svg></span>
+              <div><b>Bunot verified</b><small>Slot #2 is yours</small></div>
+            </div>
+          </div>
+          <div class="layer" data-depth="40">
+            <div class="float-card fc-2 intro-pop" style="--d:8">
+              <span class="fc-ic c-green"><svg class="ic"><use href="#i-check-circle"/></svg></span>
+              <div><b>Payment confirmed</b><small>₱2,000 · via GCash</small></div>
+            </div>
+          </div>
+          <div class="layer" data-depth="28">
+            <div class="float-card fc-3 intro-pop" style="--d:9">
+              <span class="fc-ic c-gold"><svg class="ic"><use href="#i-bell"/></svg></span>
+              <div><b>Hulog due tomorrow</b><small>Barkada Savings · ₱1,000</small></div>
+            </div>
+          </div>
+
+          <div class="layer" data-depth="48">
+            <div class="mascot-wrap intro-pop" style="--d:6">
+<svg class="mascot" viewBox="0 0 210 220" aria-hidden="true">
+<g class="m-body"><path d="M132 198 C 186 200, 208 156, 198 114 C 190 80, 204 56, 188 36 C 172 16, 140 20, 136 46 C 133 66, 156 68, 160 86 C 164 104, 150 124, 136 146 Z" fill="#C9733A" stroke="#94501F" stroke-width="3" stroke-linejoin="round"></path><path d="M148 186 C 182 182, 196 148, 188 114 C 182 88, 192 66, 180 50" fill="none" stroke="#E8A262" stroke-width="9" stroke-linecap="round" opacity="0.85"></path><path d="M150 44 C 158 36, 170 36, 178 42" fill="none" stroke="#94501F" stroke-width="2.5" stroke-linecap="round" opacity="0.6"></path><path d="M190 130 C 194 120, 194 110, 190 100" fill="none" stroke="#94501F" stroke-width="2.5" stroke-linecap="round" opacity="0.6"></path><ellipse cx="74" cy="205" rx="18" ry="9" fill="#94501F"></ellipse><ellipse cx="118" cy="205" rx="18" ry="9" fill="#94501F"></ellipse><ellipse cx="96" cy="162" rx="50" ry="46" fill="#C9733A" stroke="#94501F" stroke-width="3"></ellipse><ellipse cx="96" cy="170" rx="31" ry="32" fill="#FBE6C8"></ellipse><path d="M54 66 L 60 16 L 92 46 Z" fill="#C9733A" stroke="#94501F" stroke-width="3" stroke-linejoin="round"></path><path d="M62 56 L 65 28 L 84 46 Z" fill="#F3B38E"></path><path d="M138 66 L 132 16 L 100 46 Z" fill="#C9733A" stroke="#94501F" stroke-width="3" stroke-linejoin="round"></path><path d="M130 56 L 127 28 L 108 46 Z" fill="#F3B38E"></path><path d="M60 18 C 56 10, 60 4, 66 2" fill="none" stroke="#94501F" stroke-width="3" stroke-linecap="round"></path><path d="M132 18 C 136 10, 132 4, 126 2" fill="none" stroke="#94501F" stroke-width="3" stroke-linecap="round"></path><circle cx="96" cy="90" r="54" fill="#C9733A" stroke="#94501F" stroke-width="3"></circle><path d="M88 40 C 92 30, 100 30, 106 37" fill="none" stroke="#94501F" stroke-width="3" stroke-linecap="round"></path><path d="M62 58 C 72 46, 86 41, 98 41" fill="none" stroke="#E8A262" stroke-width="4" stroke-linecap="round" opacity="0.8"></path><ellipse cx="74" cy="94" rx="17" ry="18" fill="#FBE6C8"></ellipse><ellipse cx="118" cy="94" rx="17" ry="18" fill="#FBE6C8"></ellipse><ellipse cx="96" cy="118" rx="30" ry="22" fill="#FBE6C8"></ellipse><ellipse cx="62" cy="116" rx="10" ry="6.5" fill="#F49A86" opacity="0.7"></ellipse><ellipse cx="130" cy="116" rx="10" ry="6.5" fill="#F49A86" opacity="0.7"></ellipse><path d="M64 98 Q 74 86 84 98" fill="none" stroke="#2A1A10" stroke-width="4.5" stroke-linecap="round"></path><path d="M108 98 Q 118 86 128 98" fill="none" stroke="#2A1A10" stroke-width="4.5" stroke-linecap="round"></path><ellipse cx="96" cy="113" rx="7" ry="5" fill="#5B2E16"></ellipse><ellipse cx="94" cy="111.5" rx="2.2" ry="1.4" fill="#FFFFFF" opacity="0.6"></ellipse><path d="M96 118 L 96 122" stroke="#5B2E16" stroke-width="2.5" stroke-linecap="round"></path><path d="M84 121 Q 90 128 96 122 Q 102 128 108 121" fill="none" stroke="#5B2E16" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="91" y="124" width="10" height="9" rx="2" fill="#FFFFFF" stroke="#5B2E16" stroke-width="1.8"></rect><path d="M96 124 L 96 133" stroke="#5B2E16" stroke-width="1.4"></path><ellipse cx="96" cy="138" rx="12" ry="3" fill="#F0CFA3" opacity="0.6"></ellipse></g>
+<g class="m-arm m-arm-l"><g><path d="M54 150 C 38 136, 32 118, 38 106" fill="none" stroke="#94501F" stroke-width="15" stroke-linecap="round"></path><circle cx="38" cy="102" r="10" fill="#FBE6C8" stroke="#94501F" stroke-width="2"></circle><path d="M33 95 L 32 90 M38 93 L 38 88 M43 95 L 44 90" stroke="#94501F" stroke-width="2" stroke-linecap="round"></path></g></g>
+<g class="m-arm m-arm-r"><g><path d="M138 150 C 154 136, 160 118, 154 106" fill="none" stroke="#94501F" stroke-width="15" stroke-linecap="round"></path><circle cx="154" cy="102" r="10" fill="#FBE6C8" stroke="#94501F" stroke-width="2"></circle><path d="M149 95 L 148 90 M154 93 L 154 88 M159 95 L 160 90" stroke="#94501F" stroke-width="2" stroke-linecap="round"></path></g></g>
+</svg>
+              <div class="mascot-shadow"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <section class="marquee" aria-label="Highlights">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span><svg class="ic"><use href="#i-dice"/></svg>Verifiable Digital Bunot</span>
+          <span><svg class="ic"><use href="#i-receipt"/></svg>Proof of payment</span>
+          <span><svg class="ic"><use href="#i-bell"/></svg>Auto-reminders</span>
+          <span><svg class="ic"><use href="#i-star"/></svg>Tiwala Score</span>
+          <span><svg class="ic"><use href="#i-sparkle"/></svg>Ipon AI</span>
+          <span><svg class="ic"><use href="#i-swap"/></svg>Turn swaps</span>
+          <span><svg class="ic"><use href="#i-split"/></svg>Split slots</span>
+          <span><svg class="ic"><use href="#i-wallet"/></svg>GCash · Maya · Bank</span>
+          <span><svg class="ic"><use href="#i-shield"/></svg>Scam safeguards</span>
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          <span><svg class="ic"><use href="#i-dice"/></svg>Verifiable Digital Bunot</span>
+          <span><svg class="ic"><use href="#i-receipt"/></svg>Proof of payment</span>
+          <span><svg class="ic"><use href="#i-bell"/></svg>Auto-reminders</span>
+          <span><svg class="ic"><use href="#i-star"/></svg>Tiwala Score</span>
+          <span><svg class="ic"><use href="#i-sparkle"/></svg>Ipon AI</span>
+          <span><svg class="ic"><use href="#i-swap"/></svg>Turn swaps</span>
+          <span><svg class="ic"><use href="#i-split"/></svg>Split slots</span>
+          <span><svg class="ic"><use href="#i-wallet"/></svg>GCash · Maya · Bank</span>
+          <span><svg class="ic"><use href="#i-shield"/></svg>Scam safeguards</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VALUE TRIO ================= -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Why Paluwagan</span>
+          <h2>Everything your circle argues about, settled.</h2>
+          <p>Who's next, who paid, who's late. The app keeps the record, so nobody has to keep the peace.</p>
+        </div>
+
+        <div class="trio">
+          <article class="trio-card reveal">
+            <div class="trio-visual tv-draw">
+              <div class="balls">
+                <span style="--x:0;--y:0">1</span><span style="--x:1;--y:0">2</span><span style="--x:2;--y:0">3</span><span style="--x:3;--y:0">4</span>
+                <span style="--x:0;--y:1">5</span><span class="win" style="--x:1;--y:1">6</span><span style="--x:2;--y:1">7</span><span style="--x:3;--y:1">8</span>
+              </div>
+              <div class="hash"><svg class="ic ic-sm"><use href="#i-lock"/></svg><code>sha256 · 9f2c…e41a</code></div>
+            </div>
+            <h3>A draw nobody can rig</h3>
+            <p>Payout order uses commit–reveal randomness. Any member can re-run the draw on their own phone and get the same result.</p>
+          </article>
+
+          <article class="trio-card reveal">
+            <div class="trio-visual tv-pay">
+              <div class="pay-row pr-1"><span class="av" style="--c:#F2711C">A</span><div><b>Ana</b><small>GCash · ₱2,000</small></div><span class="ok"><svg class="ic ic-sm"><use href="#i-check"/></svg></span></div>
+              <div class="pay-row pr-2"><span class="av" style="--c:#2F6FEB">M</span><div><b>Marco</b><small>Maya · ₱2,000</small></div><span class="ok"><svg class="ic ic-sm"><use href="#i-check"/></svg></span></div>
+              <div class="pay-row pr-3"><span class="av" style="--c:#E5365F">J</span><div><b>Joy</b><small>Waiting for receipt</small></div><span class="wait"></span></div>
+            </div>
+            <h3>Receipts for every hulog</h3>
+            <p>Members upload proof of payment and the recipient confirms it. Both sides sign off, so nobody's word is the only record.</p>
+          </article>
+
+          <article class="trio-card reveal">
+            <div class="trio-visual tv-score">
+              <svg class="gauge" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" class="g-track"/>
+                <circle cx="60" cy="60" r="50" class="g-fill"/>
+              </svg>
+              <div class="gauge-label"><b data-count="92">0</b><small>Tiwala Score</small></div>
+            </div>
+            <h3>Trust you can see</h3>
+            <p>Every member builds a Tiwala Score from on-time payments across all circles. Admins see it before they approve a join request.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= STICKY TOUR ================= -->
+    <section class="section tour" id="tour">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Product tour</span>
+          <h2>A closer look inside the app.</h2>
+          <p>These are real screens from the beta, not mockups.</p>
+        </div>
+
+        <div class="tour-grid">
+          <div class="tour-steps">
+            <article class="tour-step is-active" data-screen="0">
+              <span class="tour-num">01</span>
+              <h3>Your money, at a glance</h3>
+              <p>Home shows your next payout, what you've saved, what's due this week, and a nudge from Ipon, your money buddy.</p>
+              <ul class="ticks"><li>Next payout and total due</li><li>Quick actions: create, join, pay</li><li>Light and dark mode</li></ul>
+              <img class="tour-inline" src="assets/screens/home.webp" alt="Paluwagan home screen" loading="lazy" width="390" height="844" />
+            </article>
+            <article class="tour-step" data-screen="1">
+              <span class="tour-num">02</span>
+              <h3>Every circle in one place</h3>
+              <p>Weekly, kinsenas or monthly, each paluwagan gets its own card with the payout per round and how close your turn is.</p>
+              <ul class="ticks"><li>Daily, weekly, semi-monthly, monthly or custom</li><li>Separate sahod schedule</li><li>Join by code, link or QR</li></ul>
+              <img class="tour-inline" src="assets/screens/circles.webp" alt="Circles list screen" loading="lazy" width="390" height="844" />
+            </article>
+            <article class="tour-step" data-screen="2">
+              <span class="tour-num">03</span>
+              <h3>Rounds that run themselves</h3>
+              <p>See who has paid this round, confirm receipts with one tap, and release the sahod when everyone's in.</p>
+              <ul class="ticks"><li>Two-sided payment sign-off</li><li>Group chat per circle</li><li>Turn swaps and split slots</li></ul>
+              <img class="tour-inline" src="assets/screens/circle.webp" alt="Circle round detail screen" loading="lazy" width="390" height="844" />
+            </article>
+            <article class="tour-step" data-screen="3">
+              <span class="tour-num">04</span>
+              <h3>Ipon goals that keep you on track</h3>
+              <p>Save on your own too. Set a goal and a plan, log deposits, and watch your weekly streak grow.</p>
+              <ul class="ticks"><li>Daily, weekly, payday or monthly plans</li><li>Goals can count your circle payouts</li><li>Weekly streaks</li></ul>
+              <img class="tour-inline" src="assets/screens/ipon.webp" alt="Ipon savings goals screen" loading="lazy" width="390" height="844" />
+            </article>
+            <article class="tour-step" data-screen="4">
+              <span class="tour-num">05</span>
+              <h3>Ask Ipon anything</h3>
+              <p>Ipon AI reads your circles, dues and goals, then gives advice that fits you. Ask it "what do I pay this week?"</p>
+              <ul class="ticks"><li>Personal savings plans</li><li>One-tap "Ipon's take" insights</li><li>Powered by Claude</li></ul>
+              <img class="tour-inline" src="assets/screens/assistant.webp" alt="Ipon AI assistant screen" loading="lazy" width="390" height="844" />
+            </article>
+          </div>
+
+          <div class="tour-sticky">
+            <div class="tour-phone-wrap">
+              <div class="tour-glow"></div>
+              <div class="phone phone-tour">
+                <div class="phone-island"></div>
+                <div class="phone-screen">
+                  <img class="tour-shot is-active" src="assets/screens/home.webp" alt="" width="390" height="844" />
+                  <img class="tour-shot" src="assets/screens/circles.webp" alt="" loading="lazy" width="390" height="844" />
+                  <img class="tour-shot" src="assets/screens/circle.webp" alt="" loading="lazy" width="390" height="844" />
+                  <img class="tour-shot" src="assets/screens/ipon.webp" alt="" loading="lazy" width="390" height="844" />
+                  <img class="tour-shot" src="assets/screens/assistant.webp" alt="" loading="lazy" width="390" height="844" />
+                </div>
+              </div>
+              <div class="tour-dots" aria-hidden="true"><i class="is-active"></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BENTO ================= -->
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Features</span>
+          <h2>Built for how Filipinos really save.</h2>
+        </div>
+        <div class="bento">
+          <article class="tile tile-wide reveal">
+            <div class="tile-text">
+              <span class="tile-ic"><svg class="ic"><use href="#i-bell"/></svg></span>
+              <h3>Reminders that do the chasing</h3>
+              <p>Push notifications 3 days before, 1 day before, on the due date and when overdue, plus one-tap nudges from the admin.</p>
+            </div>
+            <div class="notif-stack" aria-hidden="true">
+              <div class="notif n1"><span class="n-ic"><svg class="ic ic-sm"><use href="#i-bell"/></svg></span><div><b>Hulog in 3 days</b><small>Office Pantry Fund · ₱2,000</small></div></div>
+              <div class="notif n2"><span class="n-ic"><svg class="ic ic-sm"><use href="#i-clock"/></svg></span><div><b>Due tomorrow</b><small>Barkada Savings · ₱1,000</small></div></div>
+              <div class="notif n3"><span class="n-ic"><svg class="ic ic-sm"><use href="#i-check"/></svg></span><div><b>Ana confirmed your payment</b><small>Just now</small></div></div>
+            </div>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-swap"/></svg></span>
+            <h3>Turn swaps</h3>
+            <p>Trade payout rounds with another member, with their consent and admin approval.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-split"/></svg></span>
+            <h3>Split slots</h3>
+            <p>Two members share one slot. Each pays half and gets half.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-calendar"/></svg></span>
+            <h3>Flexible schedules</h3>
+            <p>Daily, weekly, kinsenas, monthly, or every N days, with its own payout schedule.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <h3>Join password</h3>
+            <p>Invite-only circles. Join with a code, link or QR code, plus the circle password.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-shield"/></svg></span>
+            <h3>Scam safeguards</h3>
+            <p>The app warns you when a circle promises interest or returns.</p>
+          </article>
+          <article class="tile reveal">
+            <span class="tile-ic"><svg class="ic"><use href="#i-wallet"/></svg></span>
+            <h3>Never holds your money</h3>
+            <p>Pay each other directly with GCash, Maya, bank or cash. The app keeps the record.</p>
+          </article>
+        </div>
+
+        <div class="stats reveal">
+          <div><b data-count="0" data-prefix="₱">₱0</b><span>of your money is held by the app</span></div>
+          <div><b data-count="4">0</b><span>automatic reminders per due date</span></div>
+          <div><b data-count="5">0</b><span>hulog schedules to choose from</span></div>
+          <div><b data-count="1">0</b><span>tap to verify the draw yourself</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DESKTOP ================= -->
+    <section class="section desktop-sec">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Included, not extra</span>
+          <h2>Big screen? It's ready for that too.</h2>
+          <p>On a laptop, Paluwagan switches to a full desktop layout with a sidebar, multi-column pages and dialogs. It's the same account and the same data as on your phone.</p>
+        </div>
+        <div class="browser" id="browserFrame">
+          <div class="browser-bar">
+            <i></i><i></i><i></i>
+            <span class="browser-url"><svg class="ic ic-xs"><use href="#i-lock"/></svg>paluwagan-app-red.vercel.app</span>
+          </div>
+          <img src="assets/screens/desktop.webp" alt="Paluwagan desktop layout with sidebar, payouts and Ipon goals" loading="lazy" width="2160" height="1350" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section section-alt" id="how">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">How it works</span>
+          <h2>From group chat to organised circle in four steps.</h2>
+        </div>
+        <ol class="steps">
+          <li class="step reveal"><span class="step-ic"><svg class="ic"><use href="#i-plus"/></svg></span><span class="step-n">Step 1</span><h3>Create a circle</h3><p>Set the hulog amount, schedule and number of slots.</p></li>
+          <li class="step reveal"><span class="step-ic"><svg class="ic"><use href="#i-qr"/></svg></span><span class="step-n">Step 2</span><h3>Invite your people</h3><p>Share a code, link or QR. Members join with the circle password.</p></li>
+          <li class="step reveal"><span class="step-ic"><svg class="ic"><use href="#i-dice"/></svg></span><span class="step-n">Step 3</span><h3>Draw the order</h3><p>Lock the circle and run the Digital Bunot. Anyone can verify it.</p></li>
+          <li class="step reveal"><span class="step-ic"><svg class="ic"><use href="#i-wallet"/></svg></span><span class="step-n">Step 4</span><h3>Pay and get paid</h3><p>Send through GCash, Maya or bank, upload the receipt, get reminded.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= LIVE DEMO ================= -->
+    <section class="section" id="demo">
+      <div class="wrap demo-grid">
+        <div class="demo-copy reveal">
+          <span class="kicker">Live demo</span>
+          <h2>Try the real app, right here.</h2>
+          <p>This is the actual beta running inside the page. On the sign-in screen, tap <b>Explore the demo</b> to open the full app with sample circles. You don't need an account.</p>
+          <ul class="ticks ticks-lg">
+            <li>Browse sample circles and payout rounds</li>
+            <li>Watch the Digital Bunot and verify the order</li>
+            <li>Check Ipon goals, reminders and your Tiwala Score</li>
+          </ul>
+          <div class="demo-actions">
+            <a class="btn btn-primary web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">Open full screen <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg></a>
+            <button class="btn btn-ghost" data-open-feedback data-category="bug"><svg class="ic ic-sm"><use href="#i-bug"/></svg>Found a bug?</button>
+          </div>
+        </div>
+        <div class="demo-frame reveal">
+          <div class="phone phone-live">
+            <div class="phone-island"></div>
+            <div class="phone-screen">
+              <div class="live-placeholder" id="livePlaceholder">
+                <img src="assets/mascot-coin.svg" alt="" width="120" height="126" />
+                <p>Load the live app inside this phone</p>
+                <button class="btn btn-primary" id="loadDemo"><svg class="ic ic-sm"><use href="#i-play"/></svg>Start live demo</button>
+                <small>Loads paluwagan-app-red.vercel.app</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DOWNLOAD ================= -->
+    <section class="section section-alt" id="download">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Download</span>
+          <h2>Get Paluwagan on every device.</h2>
+          <p>The native apps are still being built. Until then, the web app has every feature and works on any phone or computer.</p>
+        </div>
+
+        <div class="dl-grid">
+          <a class="dl-card dl-web reveal web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">
+            <span class="status s-live"><span class="pulse"></span>Available now</span>
+            <span class="dl-ic"><svg class="ic"><use href="#i-globe"/></svg></span>
+            <h3>Web app</h3>
+            <p>Any browser on your phone, tablet or computer.</p>
+            <span class="btn btn-primary btn-block">Open in browser <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg></span>
+          </a>
+          <button class="dl-card reveal" data-soon="Android APK">
+            <span class="status">In progress</span>
+            <span class="dl-ic"><svg class="ic"><use href="#i-android"/></svg></span>
+            <h3>Android</h3>
+            <p>A direct APK download for Android phones.</p>
+            <span class="btn btn-disabled btn-block"><svg class="ic ic-sm"><use href="#i-download"/></svg>Download APK</span>
+          </button>
+          <button class="dl-card reveal" data-soon="Windows app">
+            <span class="status">In progress</span>
+            <span class="dl-ic"><svg class="ic"><use href="#i-windows"/></svg></span>
+            <h3>Windows</h3>
+            <p>A desktop app for Windows 10 and 11.</p>
+            <span class="btn btn-disabled btn-block"><svg class="ic ic-sm"><use href="#i-download"/></svg>Download .exe</span>
+          </button>
+          <button class="dl-card reveal" data-soon="iOS app">
+            <span class="status">Planned</span>
+            <span class="dl-ic"><svg class="ic"><use href="#i-apple"/></svg></span>
+            <h3>iPhone</h3>
+            <p>Coming to the App Store later. Add the web app to your Home Screen for now.</p>
+            <span class="btn btn-disabled btn-block">App Store</span>
+          </button>
+        </div>
+
+        <div class="tip reveal">
+          <svg class="ic"><use href="#i-bulb"/></svg>
+          <span>On your phone, open the web app and choose <b>Add to Home Screen</b> (iPhone: Share menu, Android: the ⋮ menu). It opens like a normal app.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="section" id="faq">
+      <div class="wrap faq-grid">
+        <div class="faq-head reveal">
+          <span class="kicker">FAQ</span>
+          <h2>Questions, answered.</h2>
+          <p>Can't find what you need? <a href="#feedback" data-open-feedback data-category="other">Send us a message</a>.</p>
+        </div>
+        <div class="faq">
+          <details class="reveal" open>
+            <summary>What is a paluwagan?</summary>
+            <p>A rotating savings circle. Every member puts in the same amount each round, and one member takes home the whole pot. It repeats until everyone has had a turn.</p>
+          </details>
+          <details class="reveal">
+            <summary>Does the app hold or move my money?</summary>
+            <p>No. Members pay each other directly through GCash, Maya, a bank or cash. Paluwagan only keeps the record: receipts, confirmations, reminders and history.</p>
+          </details>
+          <details class="reveal">
+            <summary>How do I know the draw is fair?</summary>
+            <p>When the circle locks, the app publishes a SHA-256 commitment to a secret seed. At the draw the seed is revealed, and any member can tap Verify to recompute the payout order on their own device.</p>
+          </details>
+          <details class="reveal">
+            <summary>When will the APK, Windows and iPhone apps be ready?</summary>
+            <p>Android and Windows builds are in progress. The iPhone app will come later. The web app has every feature, so you can start today.</p>
+          </details>
+          <details class="reveal">
+            <summary>Is it free?</summary>
+            <p>Yes, it's free during the beta.</p>
+          </details>
+          <details class="reveal">
+            <summary>I found a bug. What should I do?</summary>
+            <p>Please tell us. Use the Feedback button in the corner and describe what you were doing and what went wrong.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FEEDBACK CTA ================= -->
+    <section class="section section-tight" id="feedback">
+      <div class="wrap">
+        <div class="cta-card reveal">
+          <div class="cta-rings" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="cta-copy">
+            <span class="kicker kicker-light">Beta testing</span>
+            <h2>Help us make Paluwagan better.</h2>
+            <p>We're still testing, so every bug report and idea helps. Tell us what broke, what confused you, or what you wish the app could do.</p>
+            <div class="cta-actions">
+              <button class="btn btn-light btn-lg" data-open-feedback><svg class="ic ic-sm"><use href="#i-chat"/></svg>Send feedback</button>
+              <button class="btn btn-outline-light btn-lg" data-open-feedback data-category="bug"><svg class="ic ic-sm"><use href="#i-bug"/></svg>Report a bug</button>
+            </div>
+          </div>
+          <img class="cta-mascot" src="assets/mascot-coin.svg" alt="" width="240" height="252" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><img src="assets/logo-mark.svg" alt="" width="32" height="32" /><span>paluwagan</span></a>
+        <p>Your paluwagan, without the listahan.</p>
+        <a class="btn btn-ink btn-sm web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">Open web app <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg></a>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#tour">Product tour</a>
+        <a href="#demo">Live demo</a>
+        <a href="#download">Download</a>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#feedback" data-open-feedback>Send feedback</a>
+        <a href="#feedback" data-open-feedback data-category="bug">Report a bug</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom">
+      <span>© <span id="year">2026</span> Paluwagan. All rights reserved.</span>
+      <span>Made in the Philippines</span>
+    </div>
+  </footer>
+
+  <button class="fab" data-open-feedback aria-label="Send feedback">
+    <svg class="ic"><use href="#i-chat"/></svg>
+    <span>Feedback</span>
+  </button>
+
+  <!-- Feedback dialog -->
+  <dialog class="modal" id="feedbackModal" aria-labelledby="fbTitle">
+    <form class="modal-body" id="feedbackForm" method="dialog" novalidate>
+      <div class="modal-head">
+        <div>
+          <h3 id="fbTitle">Send feedback</h3>
+          <p class="modal-sub">Tell us what went wrong or what could be better.</p>
+        </div>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+
+      <fieldset class="seg">
+        <legend>What's it about?</legend>
+        <label><input type="radio" name="category" value="bug" checked /><span><svg class="ic"><use href="#i-bug"/></svg>Bug</span></label>
+        <label><input type="radio" name="category" value="idea" /><span><svg class="ic"><use href="#i-bulb"/></svg>Idea</span></label>
+        <label><input type="radio" name="category" value="design" /><span><svg class="ic"><use href="#i-palette"/></svg>Design</span></label>
+        <label><input type="radio" name="category" value="other" /><span><svg class="ic"><use href="#i-dots"/></svg>Other</span></label>
+      </fieldset>
+
+      <fieldset class="stars">
+        <legend>How's your experience so far? <small>(optional)</small></legend>
+        <div class="star-row">
+          <input type="radio" id="s5" name="rating" value="5" /><label for="s5" title="5 stars"><svg class="ic"><use href="#i-star"/></svg></label>
+          <input type="radio" id="s4" name="rating" value="4" /><label for="s4" title="4 stars"><svg class="ic"><use href="#i-star"/></svg></label>
+          <input type="radio" id="s3" name="rating" value="3" /><label for="s3" title="3 stars"><svg class="ic"><use href="#i-star"/></svg></label>
+          <input type="radio" id="s2" name="rating" value="2" /><label for="s2" title="2 stars"><svg class="ic"><use href="#i-star"/></svg></label>
+          <input type="radio" id="s1" name="rating" value="1" /><label for="s1" title="1 star"><svg class="ic"><use href="#i-star"/></svg></label>
+        </div>
+      </fieldset>
+
+      <label class="field">
+        <span>Your message</span>
+        <textarea name="message" rows="5" maxlength="2000" required placeholder="e.g. On the Ipon screen, the Save button doesn't respond after I add a goal."></textarea>
+        <small class="counter"><span id="msgCount">0</span>/2000</small>
+      </label>
+
+      <label class="field">
+        <span>Email or Facebook name <small>(optional, if you'd like a reply)</small></span>
+        <input type="text" name="contact" maxlength="200" autocomplete="email" />
+      </label>
+
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <p class="form-status" id="formStatus" role="status"></p>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary" id="fbSubmit">Send feedback</button>
+      </div>
+    </form>
+    <div class="modal-body thanks" id="feedbackThanks" hidden>
+      <span class="thanks-ic"><svg class="ic"><use href="#i-check-circle"/></svg></span>
+      <h3>Salamat!</h3>
+      <p>Your feedback was sent. It helps us fix things faster.</p>
+      <button type="button" class="btn btn-primary" data-close>Done</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
