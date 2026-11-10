@@ -344,15 +344,74 @@ symbol .f { fill: currentColor; stroke: none; }
 .in .ok { animation: popIn .5s cubic-bezier(.3,1.6,.5,1) forwards; }
 .in .pr-1 .ok { animation-delay: .7s; } .in .pr-2 .ok { animation-delay: 1s; }
 
-.tv-score { background: linear-gradient(160deg, var(--gold-soft), var(--surface-alt)); }
-.gauge { width: 168px; height: 168px; transform: rotate(-90deg); }
-.g-track, .g-fill { fill: none; stroke-width: 10; }
-.g-track { stroke: color-mix(in srgb, var(--gold) 20%, transparent); }
-.g-fill { stroke: var(--gold); stroke-linecap: round; stroke-dasharray: 314.16; stroke-dashoffset: 314.16; transition: stroke-dashoffset 1.8s var(--ease) .2s; }
-.in .g-fill { stroke-dashoffset: calc(314.16 * (1 - .92)); }
-.gauge-label { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
-.gauge-label b { font-size: 44px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-.gauge-label small { color: var(--muted); font-weight: 600; font-size: 12.5px; margin-top: 4px; }
+.tv-collect { background: linear-gradient(160deg, var(--brand-soft), var(--surface-alt)); padding: 16px; }
+.collect { width: 100%; max-width: 300px; padding: 14px; border-radius: 18px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.collect-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; color: var(--muted); font-weight: 600; }
+.collect-head b { font-size: 15px; color: var(--text); font-weight: 800; }
+.collect-head small { color: var(--faint); font-weight: 600; font-size: 11px; }
+.collect-bar { height: 6px; border-radius: 6px; background: var(--surface-alt); margin: 8px 0 6px; overflow: hidden; }
+.collect-bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: var(--brand); transition: width 1.6s var(--ease) .3s; }
+.in .collect-bar i { width: 60%; }
+.collect-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 13.5px; font-weight: 600; border-top: 1px solid var(--border); }
+.collect-row em { margin-left: auto; font-style: normal; font-size: 12px; color: var(--muted); font-weight: 600; }
+.collect-row.todo em { color: #E2700B; }
+.cb { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-strong); color: #fff; flex: none; transition: background-color .3s, border-color .3s; }
+.cb .ic { stroke-width: 3; opacity: 0; transform: scale(.4); transition: opacity .3s, transform .4s cubic-bezier(.3,1.6,.5,1); }
+.in .collect-row:not(.todo) .cb { background: var(--brand); border-color: var(--brand); }
+.in .collect-row:not(.todo) .cb .ic { opacity: 1; transform: none; }
+.in .cr-1 .cb, .in .cr-1 .cb .ic { transition-delay: .5s; }
+.in .cr-2 .cb, .in .cr-2 .cb .ic { transition-delay: .9s; }
+.in .cr-3 .cb, .in .cr-3 .cb .ic { transition-delay: 1.3s; }
+
+/* ---------- Online / offline modes ---------- */
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.mode-card {
+  position: relative; overflow: hidden; display: flex; flex-direction: column;
+  padding: 36px 36px 0; border-radius: 32px; border: 1px solid var(--border); background: var(--surface);
+  box-shadow: var(--shadow-sm); transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+}
+.mode-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+.mode-online { background: linear-gradient(170deg, var(--blue-soft), var(--surface) 55%); }
+.mode-offline { background: linear-gradient(170deg, var(--brand-soft), var(--surface) 55%); }
+.mode-top { display: flex; align-items: center; gap: 16px; }
+.mode-ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 18px; color: #fff; flex: none; }
+.mode-ic .ic { width: 28px; height: 28px; }
+.mode-online .mode-ic { background: linear-gradient(135deg, #5AA2FF, #2A5FE0); box-shadow: 0 12px 24px -10px rgba(42,95,224,.7); }
+.mode-offline .mode-ic { background: linear-gradient(135deg, #2BD06A, #129443); box-shadow: 0 12px 24px -10px rgba(22,163,74,.7); }
+.mode-online .mode-ic .d, .mode-offline .mode-ic .d { opacity: .3; }
+.mode-tag { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.mode-card h3 { font-size: clamp(26px, 2.6vw, 34px); letter-spacing: -0.04em; margin-top: 2px; }
+.mode-lead { color: var(--muted); font-size: 17px; margin: 18px 0 4px; }
+.mode-online .ticks li::before { background-color: var(--blue-soft); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232F6FEB' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18 8'/%3E%3C/svg%3E"); }
+.mode-shot { position: relative; height: 330px; margin-top: 36px; display: flex; justify-content: center; }
+.phone-peek { width: 280px; height: max-content; border-radius: 46px 46px 0 0; transition: transform .6s var(--ease); }
+.phone-peek .phone-screen { border-radius: 36px 36px 0 0; }
+.mode-card:hover .phone-peek { transform: translateY(-14px); }
+
+/* Draw games */
+.games {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 20px;
+  padding: 48px 56px; border-radius: 32px; overflow: hidden; position: relative;
+  background: radial-gradient(70% 90% at 90% 10%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 60%), var(--surface);
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.games > * { min-width: 0; }
+.games h3 { font-size: clamp(28px, 3vw, 40px); letter-spacing: -0.04em; margin: 14px 0 14px; }
+.games-copy p { color: var(--muted); font-size: 17px; max-width: 460px; }
+.game-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.game-chips span {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px 10px 12px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--border); font-weight: 700; font-size: 14.5px; box-shadow: var(--shadow-sm);
+  transition: transform .3s var(--ease), border-color .2s;
+}
+.game-chips span:hover { transform: translateY(-3px) rotate(-2deg); border-color: var(--gold); }
+.game-chips .ic { color: var(--gold-text); }
+.games-visual { position: relative; height: 470px; }
+.phone-game { position: absolute; width: 230px; }
+.g-back { right: 4%; top: 30px; transform: rotate(8deg); }
+.g-front { left: 8%; top: 0; transform: rotate(-5deg); }
+.in .g-front { animation: float 6s ease-in-out infinite; }
+.in .g-back { animation: float 6s ease-in-out -3s infinite; }
 
 /* ---------- Sticky tour ---------- */
 .tour-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
@@ -608,6 +667,11 @@ legend small, .field small { color: var(--faint); font-weight: 500; }
   .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
 }
 @media (max-width: 880px) {
+  .modes, .games { grid-template-columns: 1fr; }
+  .games { padding: 36px 24px 0; text-align: center; }
+  .games-copy p { margin: 0 auto; }
+  .game-chips { justify-content: center; }
+  .games-visual { height: 420px; max-width: 420px; width: 100%; margin: 0 auto; }
   .nav-links { display: none; }
   .menu-btn { display: inline-grid; }
   .mobile-menu { display: none; flex-direction: column; padding: 4px 24px 18px; border-bottom: 1px solid var(--border); background: var(--bg); }
@@ -634,6 +698,11 @@ legend small, .field small { color: var(--faint); font-weight: 500; }
   .footer-brand { grid-column: 1 / -1; }
 }
 @media (max-width: 640px) {
+  .mode-card { padding: 28px 22px 0; }
+  .mode-shot { height: 280px; }
+  .phone-peek { width: 240px; }
+  .phone-game { width: 190px; }
+  .games-visual { height: 360px; }
   .wrap { padding: 0 16px; }
   .section { padding: 80px 0; }
   .beta-text { display: none; }
@@ -660,3 +729,22 @@ legend small, .field small { color: var(--faint); font-weight: 500; }
 @media (max-width: 880px) {
   .tour-step .ticks, .demo-copy .ticks { justify-items: start; text-align: left; margin-inline: auto; width: fit-content; max-width: 100%; }
 }
+
+/* ---------- Phone status bar (keeps app content clear of the camera island) ---------- */
+.phone-screen { padding-top: 34px; background: #F4F5F4; }
+.phone-screen > img { height: 100%; }
+.phone-screen::before, .phone-screen::after { position: absolute; top: 0; height: 34px; display: flex; align-items: center; z-index: 2; color: #0C1410; pointer-events: none; }
+.phone-screen::before { content: "9:41"; left: 26px; font: 700 12.5px/1 var(--font); letter-spacing: -0.01em; }
+.phone-screen::after {
+  content: ""; right: 24px; width: 22px; height: 11px; top: 12px; border-radius: 3.5px;
+  border: 1.5px solid currentColor; opacity: .85;
+  background: linear-gradient(currentColor, currentColor) 2px 2px / 13px 4px no-repeat;
+}
+[data-theme="dark"] .phone-screen:has(.only-dark) { background: #090C0A; }
+[data-theme="dark"] .phone-screen:has(.only-dark)::before, [data-theme="dark"] .phone-screen:has(.only-dark)::after { color: #EEF3EF; }
+.phone-live .phone-screen { padding-top: 0; }
+.phone-live .phone-screen::before, .phone-live .phone-screen::after { display: none; }
+.tour-shot { top: 34px; height: calc(100% - 34px); }
+.phone-back .phone-screen::before, .phone-game .phone-screen::before { left: 22px; font-size: 11px; }
+.g-back { right: 0; }
+.g-front { left: 2%; }

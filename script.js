@@ -36,11 +36,11 @@
   // ---- Scroll reveal + counters ----
   function countUp(el) {
     const target = Number(el.dataset.count), prefix = el.dataset.prefix || "";
-    if (reduceMotion || target === 0) { el.textContent = prefix + target; return; }
+    if (reduceMotion || target === 0) { el.textContent = prefix + target.toLocaleString('en-PH'); return; }
     const dur = 1200, t0 = performance.now();
     const tick = (t) => {
       const p = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = prefix + Math.round(target * eased);
+      el.textContent = prefix + Math.round(target * eased).toLocaleString('en-PH');
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);

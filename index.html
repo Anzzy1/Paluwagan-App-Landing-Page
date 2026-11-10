@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Paluwagan: savings circles, done right</title>
-  <meta name="description" content="Paluwagan keeps your savings circle honest: a verifiable Digital Bunot, proof-of-payment receipts, reminders and a Tiwala Score. Try the beta in your browser." />
+  <meta name="description" content="Run your paluwagan with friends and family: online when you're far apart, or offline as the admin, face to face. Fun draw games, hulog tracking and reminders. Try the beta in your browser." />
   <meta name="theme-color" content="#22C55E" />
   <link rel="icon" href="assets/favicon.png" />
   <meta property="og:title" content="Paluwagan: savings circles, done right" />
@@ -56,6 +56,13 @@
       <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
       <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></symbol>
       <symbol id="i-monitor" viewBox="0 0 24 24"><rect class="d" x="3" y="4" width="18" height="12.5" rx="3"/><rect x="3" y="4" width="18" height="12.5" rx="3"/><path d="M9 20.5h6M12 16.5v4"/></symbol>
+      <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2.5 9a14 14 0 0 1 19 0M5.5 12.5a9.5 9.5 0 0 1 13 0M8.6 16a5 5 0 0 1 6.8 0"/><circle cx="12" cy="19.3" r="1.3" class="f"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><rect class="d" x="6" y="2.5" width="12" height="19" rx="3.5"/><rect x="6" y="2.5" width="12" height="19" rx="3.5"/><path d="M10.5 18.5h3"/></symbol>
+      <symbol id="i-wheel" viewBox="0 0 24 24"><circle class="d" cx="12" cy="13" r="8.5"/><circle cx="12" cy="13" r="8.5"/><path d="M12 4.5v17M3.5 13h17M6 7l12 12M18 7L6 19"/><path class="f" d="M10 1.8h4L12 4.8z"/></symbol>
+      <symbol id="i-envelope" viewBox="0 0 24 24"><rect class="d" x="3" y="5" width="18" height="14" rx="3"/><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3.5 6.5L12 13l8.5-6.5"/></symbol>
+      <symbol id="i-slot" viewBox="0 0 24 24"><rect class="d" x="2.5" y="6" width="16" height="13" rx="3"/><rect x="2.5" y="6" width="16" height="13" rx="3"/><path d="M7.5 9.5v6M13.5 9.5v6M21.5 8v6h-3"/><circle cx="21.5" cy="6.5" r="1.5"/></symbol>
+      <symbol id="i-plinko" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.1" class="f"/><circle cx="8.5" cy="9" r="1.1" class="f"/><circle cx="15.5" cy="9" r="1.1" class="f"/><circle cx="5" cy="13" r="1.1" class="f"/><circle cx="12" cy="13" r="1.1" class="f"/><circle cx="19" cy="13" r="1.1" class="f"/><path d="M3 21h18M7.5 17.5v3.5M12 17.5v3.5M16.5 17.5v3.5"/></symbol>
+      <symbol id="i-claw" viewBox="0 0 24 24"><path d="M4 3h16M12 3v6M8.5 13.5L12 9l3.5 4.5M8.5 13.5L7.5 16M15.5 13.5l1 2.5"/><circle class="d" cx="12" cy="18.5" r="3"/><circle cx="12" cy="18.5" r="3"/></symbol>
       <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6L6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4L6 18M18 6l1.4-1.4"/></symbol>
       <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 13.5A8.5 8.5 0 1 1 10.5 3.5a6.6 6.6 0 0 0 10 10z"/></symbol>
       <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></symbol>
@@ -81,9 +88,9 @@
         <span>paluwagan</span>
       </a>
       <nav class="nav-links" aria-label="Main">
+        <a href="#modes">Online &amp; offline</a>
         <a href="#features">Features</a>
         <a href="#tour">Tour</a>
-        <a href="#how">How it works</a>
         <a href="#demo">Live demo</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -99,6 +106,7 @@
       </div>
     </div>
     <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+      <a href="#modes">Online &amp; offline</a>
       <a href="#features">Features</a>
       <a href="#tour">Tour</a>
       <a href="#how">How it works</a>
@@ -131,13 +139,13 @@
           </h1>
 
           <p class="hero-lead intro" style="--d:4">
-            Draw turns with a
-            <span class="chip-inline"><svg class="ic"><use href="#i-dice"/></svg>fair bunot</span>,
-            keep a
-            <span class="chip-inline c-blue"><svg class="ic"><use href="#i-receipt"/></svg>receipt</span>
-            for every hulog, and get
-            <span class="chip-inline c-gold"><svg class="ic"><use href="#i-bell"/></svg>reminders</span>
-            before anyone falls behind.
+            Save together with friends and family. Run it
+            <span class="chip-inline c-blue"><svg class="ic"><use href="#i-wifi"/></svg>online</span>
+            when you're far apart, or
+            <span class="chip-inline"><svg class="ic"><use href="#i-phone"/></svg>offline</span>
+            as the admin, face to face. Draw turns with
+            <span class="chip-inline c-gold"><svg class="ic"><use href="#i-wheel"/></svg>fun games</span>
+            and let the app keep the listahan.
           </p>
 
           <div class="hero-actions intro" style="--d:5">
@@ -186,8 +194,8 @@
 
           <div class="layer" data-depth="34">
             <div class="float-card fc-1 intro-pop" style="--d:7">
-              <span class="fc-ic"><svg class="ic"><use href="#i-dice"/></svg></span>
-              <div><b>Bunot verified</b><small>Slot #2 is yours</small></div>
+              <span class="fc-ic"><svg class="ic"><use href="#i-envelope"/></svg></span>
+              <div><b>Lucky Envelopes</b><small>Slot #2 is yours</small></div>
             </div>
           </div>
           <div class="layer" data-depth="40">
@@ -221,37 +229,115 @@
     <section class="marquee" aria-label="Highlights">
       <div class="marquee-track">
         <div class="marquee-group">
-          <span><svg class="ic"><use href="#i-dice"/></svg>Verifiable Digital Bunot</span>
+          <span><svg class="ic"><use href="#i-dice"/></svg>Digital Bunot</span>
           <span><svg class="ic"><use href="#i-receipt"/></svg>Proof of payment</span>
           <span><svg class="ic"><use href="#i-bell"/></svg>Auto-reminders</span>
-          <span><svg class="ic"><use href="#i-star"/></svg>Tiwala Score</span>
+          <span><svg class="ic"><use href="#i-phone"/></svg>Offline mode</span>
           <span><svg class="ic"><use href="#i-sparkle"/></svg>Ipon AI</span>
           <span><svg class="ic"><use href="#i-swap"/></svg>Turn swaps</span>
           <span><svg class="ic"><use href="#i-split"/></svg>Split slots</span>
           <span><svg class="ic"><use href="#i-wallet"/></svg>GCash · Maya · Bank</span>
-          <span><svg class="ic"><use href="#i-shield"/></svg>Scam safeguards</span>
+          <span><svg class="ic"><use href="#i-wheel"/></svg>Draw games</span>
         </div>
         <div class="marquee-group" aria-hidden="true">
-          <span><svg class="ic"><use href="#i-dice"/></svg>Verifiable Digital Bunot</span>
+          <span><svg class="ic"><use href="#i-dice"/></svg>Digital Bunot</span>
           <span><svg class="ic"><use href="#i-receipt"/></svg>Proof of payment</span>
           <span><svg class="ic"><use href="#i-bell"/></svg>Auto-reminders</span>
-          <span><svg class="ic"><use href="#i-star"/></svg>Tiwala Score</span>
+          <span><svg class="ic"><use href="#i-phone"/></svg>Offline mode</span>
           <span><svg class="ic"><use href="#i-sparkle"/></svg>Ipon AI</span>
           <span><svg class="ic"><use href="#i-swap"/></svg>Turn swaps</span>
           <span><svg class="ic"><use href="#i-split"/></svg>Split slots</span>
           <span><svg class="ic"><use href="#i-wallet"/></svg>GCash · Maya · Bank</span>
-          <span><svg class="ic"><use href="#i-shield"/></svg>Scam safeguards</span>
+          <span><svg class="ic"><use href="#i-wheel"/></svg>Draw games</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ONLINE / OFFLINE ================= -->
+    <section class="section" id="modes">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Two ways to run it</span>
+          <h2>Online with your barkada, or offline face to face.</h2>
+          <p>Every group runs its paluwagan differently. Pick the mode that fits yours when you create a circle.</p>
+        </div>
+
+        <div class="modes">
+          <article class="mode-card mode-online reveal">
+            <div class="mode-top">
+              <span class="mode-ic"><svg class="ic"><use href="#i-wifi"/></svg></span>
+              <div>
+                <span class="mode-tag">Everyone uses the app</span>
+                <h3>Online paluwagan</h3>
+              </div>
+            </div>
+            <p class="mode-lead">For groups who live far from each other. Each member creates a free account, and the whole circle runs inside the app.</p>
+            <ul class="ticks">
+              <li>Friends join with an invite code, link or QR</li>
+              <li>Members upload receipts and confirm payments</li>
+              <li>Reminders and group chat for everyone</li>
+              <li>Pay through GCash, Maya or bank</li>
+            </ul>
+            <div class="mode-shot">
+              <div class="phone phone-peek"><div class="phone-island"></div><div class="phone-screen">
+                <img class="only-light" src="assets/screens/circles.webp" alt="Online paluwagan list" loading="lazy" width="390" height="844" />
+                <img class="only-dark" src="assets/screens/circles-dark.webp" alt="" loading="lazy" width="390" height="844" />
+              </div></div>
+            </div>
+          </article>
+
+          <article class="mode-card mode-offline reveal">
+            <div class="mode-top">
+              <span class="mode-ic"><svg class="ic"><use href="#i-phone"/></svg></span>
+              <div>
+                <span class="mode-tag">Only the admin uses the app</span>
+                <h3>Managed offline</h3>
+              </div>
+            </div>
+            <p class="mode-lead">For groups who meet in person. One admin runs the whole paluwagan on their phone, and collects and hands out the money face to face.</p>
+            <ul class="ticks">
+              <li>No account and no internet needed</li>
+              <li>Add members by name. They don't need the app</li>
+              <li>Tick off each hulog as it's handed over</li>
+              <li>See whose sahod is next; advance, delay or deduct</li>
+            </ul>
+            <div class="mode-shot">
+              <div class="phone phone-peek"><div class="phone-island"></div><div class="phone-screen">
+                <img src="assets/screens/managed.webp" alt="Managed offline paluwagan showing the next sahod" loading="lazy" width="390" height="844" />
+              </div></div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Draw games -->
+        <div class="games reveal">
+          <div class="games-copy">
+            <span class="kicker">Bunutan night</span>
+            <h3>Pick the payout order with a game.</h3>
+            <p>Gather everyone around one phone and play. The order is locked in the moment you start, so nobody can redo it to change the result.</p>
+            <div class="game-chips">
+              <span><svg class="ic"><use href="#i-wheel"/></svg>Spin the Wheel</span>
+              <span><svg class="ic"><use href="#i-envelope"/></svg>Lucky Envelopes</span>
+              <span><svg class="ic"><use href="#i-slot"/></svg>Slot Machine</span>
+              <span><svg class="ic"><use href="#i-plinko"/></svg>Plinko Drop</span>
+              <span><svg class="ic"><use href="#i-claw"/></svg>Claw Machine</span>
+            </div>
+          </div>
+          <div class="games-visual" aria-hidden="true">
+            <div class="phone phone-game g-back"><div class="phone-island"></div><div class="phone-screen"><img src="assets/screens/draw-games.webp" alt="" loading="lazy" width="390" height="844" /></div></div>
+            <div class="phone phone-game g-front"><div class="phone-island"></div><div class="phone-screen"><img src="assets/screens/envelopes.webp" alt="" loading="lazy" width="390" height="844" /></div></div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ================= VALUE TRIO ================= -->
-    <section class="section" id="features">
+    <section class="section section-alt" id="features">
       <div class="wrap">
         <div class="section-head reveal">
           <span class="kicker">Why Paluwagan</span>
-          <h2>Everything your circle argues about, settled.</h2>
-          <p>Who's next, who paid, who's late. The app keeps the record, so nobody has to keep the peace.</p>
+          <h2>Less listahan, more fun.</h2>
+          <p>Made for paluwagan with the people you already trust: friends, family, officemates and neighbors. The app does the tracking so you can just enjoy saving together.</p>
         </div>
 
         <div class="trio">
@@ -263,8 +349,8 @@
               </div>
               <div class="hash"><svg class="ic ic-sm"><use href="#i-lock"/></svg><code>sha256 · 9f2c…e41a</code></div>
             </div>
-            <h3>A draw nobody can rig</h3>
-            <p>Payout order uses commit–reveal randomness. Any member can re-run the draw on their own phone and get the same result.</p>
+            <h3>A fair draw, every time</h3>
+            <p>No more paper slips. The Digital Bunot picks the payout order, and anyone can check the result on their own phone.</p>
           </article>
 
           <article class="trio-card reveal">
@@ -273,20 +359,23 @@
               <div class="pay-row pr-2"><span class="av" style="--c:#2F6FEB">M</span><div><b>Marco</b><small>Maya · ₱2,000</small></div><span class="ok"><svg class="ic ic-sm"><use href="#i-check"/></svg></span></div>
               <div class="pay-row pr-3"><span class="av" style="--c:#E5365F">J</span><div><b>Joy</b><small>Waiting for receipt</small></div><span class="wait"></span></div>
             </div>
-            <h3>Receipts for every hulog</h3>
-            <p>Members upload proof of payment and the recipient confirms it. Both sides sign off, so nobody's word is the only record.</p>
+            <h3>Every hulog on record</h3>
+            <p>Online, members upload their receipt and the recipient confirms it. No more scrolling through the group chat to see who has paid.</p>
           </article>
 
           <article class="trio-card reveal">
-            <div class="trio-visual tv-score">
-              <svg class="gauge" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="50" class="g-track"/>
-                <circle cx="60" cy="60" r="50" class="g-fill"/>
-              </svg>
-              <div class="gauge-label"><b data-count="92">0</b><small>Tiwala Score</small></div>
+            <div class="trio-visual tv-collect">
+              <div class="collect">
+                <div class="collect-head"><span>Sahod 1 · Rico</span><b><span data-count="3000" data-prefix="₱">₱0</span> <small>of ₱5,000</small></b></div>
+                <div class="collect-bar"><i></i></div>
+                <div class="collect-row cr-1"><span class="cb"><svg class="ic ic-xs"><use href="#i-check"/></svg></span>Aling Nena<em>₱1,000</em></div>
+                <div class="collect-row cr-2"><span class="cb"><svg class="ic ic-xs"><use href="#i-check"/></svg></span>Mang Jun<em>₱1,000</em></div>
+                <div class="collect-row cr-3"><span class="cb"><svg class="ic ic-xs"><use href="#i-check"/></svg></span>Carla<em>₱1,000</em></div>
+                <div class="collect-row cr-4 todo"><span class="cb"></span>Liza<em>Owes ₱1,000</em></div>
+              </div>
             </div>
-            <h3>Trust you can see</h3>
-            <p>Every member builds a Tiwala Score from on-time payments across all circles. Admins see it before they approve a join request.</p>
+            <h3>Collect face to face</h3>
+            <p>In offline mode, the admin ticks off each member as they hand over their hulog. The app tracks who still owes and whose sahod is next.</p>
           </article>
         </div>
       </div>
@@ -372,7 +461,7 @@
             <div class="tile-text">
               <span class="tile-ic"><svg class="ic"><use href="#i-bell"/></svg></span>
               <h3>Reminders that do the chasing</h3>
-              <p>Push notifications 3 days before, 1 day before, on the due date and when overdue, plus one-tap nudges from the admin.</p>
+              <p>In online circles, everyone gets a notification 3 days before, 1 day before, on the due date and when overdue. Admins can send a one-tap nudge too.</p>
             </div>
             <div class="notif-stack" aria-hidden="true">
               <div class="notif n1"><span class="n-ic"><svg class="ic ic-sm"><use href="#i-bell"/></svg></span><div><b>Hulog in 3 days</b><small>Office Pantry Fund · ₱2,000</small></div></div>
@@ -396,14 +485,14 @@
             <p>Daily, weekly, kinsenas, monthly, or every N days, with its own payout schedule.</p>
           </article>
           <article class="tile reveal">
-            <span class="tile-ic"><svg class="ic"><use href="#i-lock"/></svg></span>
-            <h3>Join password</h3>
-            <p>Invite-only circles. Join with a code, link or QR code, plus the circle password.</p>
+            <span class="tile-ic"><svg class="ic"><use href="#i-users"/></svg></span>
+            <h3>Just your group</h3>
+            <p>Online circles are invite-only. Friends join with a code, link or QR, plus the circle password.</p>
           </article>
           <article class="tile reveal">
-            <span class="tile-ic"><svg class="ic"><use href="#i-shield"/></svg></span>
-            <h3>Scam safeguards</h3>
-            <p>The app warns you when a circle promises interest or returns.</p>
+            <span class="tile-ic"><svg class="ic"><use href="#i-phone"/></svg></span>
+            <h3>Works without internet</h3>
+            <p>Offline paluwagan and Ipon goals are saved on your phone and work without a connection.</p>
           </article>
           <article class="tile reveal">
             <span class="tile-ic"><svg class="ic"><use href="#i-wallet"/></svg></span>
@@ -415,8 +504,8 @@
         <div class="stats reveal">
           <div><b data-count="0" data-prefix="₱">₱0</b><span>of your money is held by the app</span></div>
           <div><b data-count="4">0</b><span>automatic reminders per due date</span></div>
-          <div><b data-count="5">0</b><span>hulog schedules to choose from</span></div>
-          <div><b data-count="1">0</b><span>tap to verify the draw yourself</span></div>
+          <div><b data-count="2">0</b><span>ways to run it: online or offline</span></div>
+          <div><b data-count="5">0</b><span>draw games for bunutan night</span></div>
         </div>
       </div>
     </section>
@@ -464,8 +553,8 @@
           <p>This is the actual beta running inside the page. On the sign-in screen, tap <b>Explore the demo</b> to open the full app with sample circles. You don't need an account.</p>
           <ul class="ticks ticks-lg">
             <li>Browse sample circles and payout rounds</li>
-            <li>Watch the Digital Bunot and verify the order</li>
-            <li>Check Ipon goals, reminders and your Tiwala Score</li>
+            <li>Check Ipon goals and chat with Ipon AI</li>
+            <li>Tap <b>Continue offline</b> to try managed mode</li>
           </ul>
           <div class="demo-actions">
             <a class="btn btn-primary web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">Open full screen <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg></a>
@@ -549,12 +638,20 @@
             <p>A rotating savings circle. Every member puts in the same amount each round, and one member takes home the whole pot. It repeats until everyone has had a turn.</p>
           </details>
           <details class="reveal">
+            <summary>What's the difference between online and offline?</summary>
+            <p><b>Online</b> is for groups who are far apart. Every member makes a free account, joins the circle, uploads receipts and gets reminders. <b>Offline (managed)</b> is for groups who meet in person. Only the admin needs the app. They add members by name, collect the hulog face to face and tick off who has paid. Offline circles are saved on the admin's phone and don't need internet.</p>
+          </details>
+          <details class="reveal">
+            <summary>Do all members need to download the app?</summary>
+            <p>Only for online circles. In offline mode, just the admin needs it. Everyone else pays the admin in person, like a regular paluwagan.</p>
+          </details>
+          <details class="reveal">
             <summary>Does the app hold or move my money?</summary>
             <p>No. Members pay each other directly through GCash, Maya, a bank or cash. Paluwagan only keeps the record: receipts, confirmations, reminders and history.</p>
           </details>
           <details class="reveal">
             <summary>How do I know the draw is fair?</summary>
-            <p>When the circle locks, the app publishes a SHA-256 commitment to a secret seed. At the draw the seed is revealed, and any member can tap Verify to recompute the payout order on their own device.</p>
+            <p>The order is locked in the moment the draw starts, so a game can't be replayed to change the result. Anyone can tap Verify to recompute the order on their own phone and confirm it matches.</p>
           </details>
           <details class="reveal">
             <summary>When will the APK, Windows and iPhone apps be ready?</summary>
