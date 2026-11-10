@@ -152,8 +152,8 @@
             <a class="btn btn-primary btn-lg web-link" href="https://paluwagan-app-red.vercel.app/" target="_blank" rel="noopener">
               Open the web app <svg class="ic ic-sm"><use href="#i-arrow-ur"/></svg>
             </a>
-            <a class="btn btn-ghost btn-lg" href="#tour">
-              <span class="play-dot"><svg class="ic ic-xs"><use href="#i-play"/></svg></span> Take the tour
+            <a class="btn btn-ghost btn-lg" href="#video" data-play-video>
+              <span class="play-dot"><svg class="ic ic-xs"><use href="#i-play"/></svg></span> Watch the video
             </a>
           </div>
 
@@ -249,6 +249,28 @@
           <span><svg class="ic"><use href="#i-split"/></svg>Split slots</span>
           <span><svg class="ic"><use href="#i-wallet"/></svg>GCash · Maya · Bank</span>
           <span><svg class="ic"><use href="#i-wheel"/></svg>Draw games</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIDEO ================= -->
+    <section class="section video-sec" id="video">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Watch</span>
+          <h2>Paluwagan in 60 seconds.</h2>
+          <p>Online with friends far away, or offline face to face. Here's a quick look at both.</p>
+        </div>
+        <div class="video-frame reveal" id="videoFrame">
+          <video id="demoVideo" preload="none" playsinline poster="assets/video/poster.webp" width="1920" height="1080">
+            <source src="assets/video/paluwagan-demo.mp4" type="video/mp4" />
+          </video>
+          <button class="video-cover" id="videoPlay" type="button" aria-label="Play the 60-second Paluwagan video">
+            <span class="video-pill">
+              <span class="video-play"><svg class="ic"><use href="#i-play"/></svg></span>
+              <span class="video-meta"><b>Watch the video</b><small>1:00 &middot; App walkthrough</small></span>
+            </span>
+          </button>
         </div>
       </div>
     </section>

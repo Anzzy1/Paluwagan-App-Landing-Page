@@ -121,6 +121,23 @@
     showToast(`The ${b.dataset.soon} is still in progress. Use the web app for now.`);
   }));
 
+  // ---- Demo video ----
+  const video = $("#demoVideo"), videoFrame = $("#videoFrame");
+  if (video) {
+    const playVideo = () => {
+      videoFrame.classList.add("playing");
+      video.controls = true;
+      video.play().catch(() => {});
+    };
+    $("#videoPlay").addEventListener("click", playVideo);
+    video.addEventListener("ended", () => { videoFrame.classList.remove("playing"); video.controls = false; video.currentTime = 0; video.load(); });
+    $$("[data-play-video]").forEach((a) => a.addEventListener("click", (e) => {
+      e.preventDefault();
+      videoFrame.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      setTimeout(playVideo, reduceMotion ? 0 : 500);
+    }));
+  }
+
   // ---- Live demo ----
   $("#loadDemo").addEventListener("click", () => {
     const frame = document.createElement("iframe");
