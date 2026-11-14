@@ -1,6 +1,7 @@
 (function () {
   const cfg = window.PALUWAGAN_CONFIG || {};
   const WEB_APP = cfg.webAppUrl || "https://paluwagan-app-red.vercel.app/";
+  const APK = cfg.apkUrl || "https://expo.dev/artifacts/eas/gDboPvSFpLg7toxlqR3RHpMP-61G5YZZpItd6_LWDV8.apk";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -23,6 +24,7 @@
 
   // ---- Links ----
   $$(".web-link").forEach((a) => (a.href = WEB_APP));
+  $$(".apk-link").forEach((a) => (a.href = APK));
 
   // ---- Nav ----
   const nav = $(".nav");

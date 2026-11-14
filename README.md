@@ -5,7 +5,8 @@ Static landing page for the Paluwagan app (no build step): `index.html`, `styles
 - **Preview:** open `index.html` in a browser, or run `npx serve .`
 - **Deploy:** import this folder into Vercel as a new project (framework: Other, no build command).
 - **Web app link:** `webAppUrl` in `config.js`.
-- **Download buttons:** APK / Windows / iOS cards in the `#download` section of `index.html` show "Coming soon". When a build is ready, swap the `<button data-soon>` for an `<a href="...">`.
+- **APK link:** `apkUrl` in `config.js` (applied to every `.apk-link`; also hard-coded as the fallback `href` in `index.html`).
+- **Download buttons:** Windows / iOS cards in the `#download` section show "Coming soon". When a build is ready, swap the `<button data-soon>` for an `<a href="...">`.
 
 ## Feedback form setup (one time)
 
